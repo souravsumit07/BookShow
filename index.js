@@ -4,6 +4,7 @@ import connectDb from './config/dbConfig.js';
 import userRouter from "./routes/user.routes.js";
 import movieRouter from "./routes/movie.routes.js";
 import theatreRouter from "./routes/theatre.routes.js";
+import showsRouter from "./routes/shows.routes.js";
 
 dotenv.config()
 
@@ -15,9 +16,11 @@ const port = process.env.PORT || 5000;
 app.get("/",(req,res) => {
     res.send("Hello from server")
 })
+
 app.use("/api/v1/users",userRouter)
 app.use("/api/v1/movies",movieRouter)
 app.use("/api/v1/theatre",theatreRouter)
+app.use("/api/v1/shows",showsRouter)
 
 
 app.listen(port,() => {

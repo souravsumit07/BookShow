@@ -1,5 +1,5 @@
 import User from "../models/user.model.js";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const Register = async (req, res) => {
@@ -12,12 +12,13 @@ export const Register = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
-    const hashedPassword = await bcrypt(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
       name,
       email,
       password: hashedPassword,
     });
+    newUser.save()
     res.status(201).json({
       message: "User registered successfully",
       user: { id: newUser._id, name: newUser.name, email: newUser.email },
@@ -37,7 +38,7 @@ export const Login = async (req, res) => {
         .status(400)
         .json({ message: "Email and password are required" });
     }
-    const user = await User.findone({ email });
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }

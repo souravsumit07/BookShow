@@ -5,4 +5,4 @@ scrape_configs:
   - job_name: 'nodejs_app'
     scrape_interval: 5s
     static_configs:
-      - targets: [' nodejs-service:3000']
+      - targets: ['nodejs-service:3000']

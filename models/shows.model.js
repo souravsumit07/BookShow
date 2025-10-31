@@ -23,7 +23,7 @@ const showSchema=mongoose.Schema({
       required: true,
     },
     bookedSeats:{
-        type:[Number],
+        type:[String],
         default:[]
     }
 },{timestamps:true})

@@ -38,30 +38,38 @@ A scalable and secure **backend API** for a Movie Booking platform, built using 
 project-root/
 │
 ├── config/
-│   └── dbConfig.js               # Database connection setup
+│   └── dbConfig.js                 # MongoDB connection setup
 │
 ├── controllers/
-│   ├── movie.controller.js       # Movie logic
-│   ├── theatre.controller.js     # Theatre logic
-│   └── user.controller.js        # User logic
+│   ├── user.controller.js          # Auth logic
+│   ├── movie.controller.js         # Movie CRUD logic
+│   ├── theatre.controller.js       # Theatre CRUD logic
+│   ├── shows.controller.js         # Show scheduling logic
+│   └── booking.controller.js       # Ticket booking (in progress)
 │
 ├── middleware/
-│   └── authMiddleware.js         # JWT authentication check
+│   ├── authMiddleware.js           # JWT authentication
+│   └── roleMiddleware.js           # Role-based authorization
 │
 ├── models/
+│   ├── user.model.js
 │   ├── movie.model.js
 │   ├── theatre.model.js
-│   └── user.model.js
+│   ├── show.model.js
+│   └── booking.model.js
 │
 ├── routes/
+│   ├── user.routes.js
 │   ├── movie.routes.js
 │   ├── theatre.routes.js
-│   └── user.routes.js
+│   ├── shows.routes.js
+│   └── booking.routes.js
 │
 ├── .env
-├── index.js                      # Entry point of the app
+├── index.js                        # Entry point of the app
 ├── package.json
 └── README.md
+
 
 ```
 
@@ -78,19 +86,43 @@ JWT_SECRET=your_secret_key
 ---
 
 ## 🧪 API Endpoints
-| Method   | Endpoint                 | Description                         |
-| -------- | ------------------------ | ----------------------------------- |
-| `POST`   | `/api/v1/users/register` | Register a new user                 |
-| `POST`   | `/api/v1/users/login`    | User login & JWT generation         |
-| `POST`   | `/api/v1/movies`         | Add a new movie                     |
-| `GET`    | `/api/v1/movies`         | Get all movies                      |
-| `GET`    | `/api/v1/movies/:id`     | Get movie by ID                     |
-| `PUT`    | `/api/v1/movies/:id`     | Update movie details                |
-| `DELETE` | `/api/v1/movies/:id`     | Delete movie                        |
-| `POST`   | `/api/v1/theatre`        | Add a new theatre *(requires auth)* |
-| `GET`    | `/api/v1/theatre`        | Get all theatres                    |
-| `GET`    | `/api/v1/theatre/:id`    | Get theatre by ID                   |
-| `DELETE` | `/api/v1/theatre/:id`    | Delete theatre *(requires auth)*    |
+👤 User
+| Method | Endpoint                 | Description                 |
+| ------ | ------------------------ | --------------------------- |
+| `POST` | `/api/v1/users/register` | Register a new user         |
+| `POST` | `/api/v1/users/login`    | User login & JWT generation |
+
+🎥 Movies
+| Method   | Endpoint             | Description          | Access |
+| -------- | -------------------- | -------------------- | ------ |
+| `POST`   | `/api/v1/movies`     | Add a new movie      | Admin  |
+| `GET`    | `/api/v1/movies`     | Get all movies       | Public |
+| `GET`    | `/api/v1/movies/:id` | Get movie by ID      | Public |
+| `PUT`    | `/api/v1/movies/:id` | Update movie details | Admin  |
+| `DELETE` | `/api/v1/movies/:id` | Delete a movie       | Admin  |
+
+🎭 Theatres
+| Method   | Endpoint               | Description       | Access |
+| -------- | ---------------------- | ----------------- | ------ |
+| `POST`   | `/api/v1/theatres`     | Add a new theatre | Admin  |
+| `GET`    | `/api/v1/theatres`     | Get all theatres  | Public |
+| `GET`    | `/api/v1/theatres/:id` | Get theatre by ID | Public |
+| `DELETE` | `/api/v1/theatres/:id` | Delete a theatre  | Admin  |
+
+⏰ Shows
+| Method   | Endpoint                           | Description          | Access |
+| -------- | ---------------------------------- | -------------------- | ------ |
+| `POST`   | `/api/v1/shows`                    | Add new show         | Admin  |
+| `GET`    | `/api/v1/shows/:id`                | Get show by ID       | Public |
+| `GET`    | `/api/v1/shows/theatre/:theatreId` | Get shows by theatre | Public |
+| `DELETE` | `/api/v1/shows/:id`                | Delete a show        | Admin  |
+
+🎟️ Booking (In Progress)
+| Method | Endpoint                         | Description          | Access |
+| ------ | -------------------------------- | -------------------- | ------ |
+| `POST` | `/api/v1/bookings/createBooking` | Create a new booking | User   |
+
+
 
 
 
